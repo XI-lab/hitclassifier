@@ -1,0 +1,175 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>HIT-Classifier</title>
+  <meta name="description" content="">
+  <!-- Mobile viewport optimized: h5bp.com/viewport -->
+  <meta name="viewport" content="width=device-width">
+  <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/utils.js"></script>
+</head>
+<body style="padding-top: 10px;">
+  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
+       chromium.org/developers/how-tos/chrome-frame-getting-started -->
+  <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+
+  <!-- instructions block -->
+  <div id="instruction" class="container">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+              Show Instructions
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse">
+          <div class="panel-body">
+            <p id="Instructions">
+              The task is to categorize a HIT found on mturk into one of the following categories (see example bellow).
+              Please familiarize yourself first with each category to make better/faster judgments.<br/>
+              <br /><b>Information Finding</b>: searching to satisfy one's information need. For example, 'Find information about a company in the UK', or 'Find the cheapest air fare for the selected dates and destinations '.<br />
+              <br /><b>Verification and Validation</b>: either verify certain aspects as per the given instructions, or confirm the validity of various kinds of content. For example, 'Is this a Spam Bot? : Check whether the twitter users are either real people or organisations, or merely spam twitter user profiles', or 'Match the names of personal computers and verify corresponding information'.<br />
+              <br /><b>Interpretation and Analysis</b>: use interpretation skills during task completion. For example, 'Choose the most suitable category for each URL', or 'Categorize reviews as either positive or negative'.<br />
+              <br /><b>Content Creation</b>: generate new content for a document or website. They include authoring product descriptions or producing question-answer pairs. For example, 'Suggest names for a new product', or 'Translate the following content into German'.<br />
+              <br /><b>Surveys</b>: Surveys about a multitude of aspects ranging from demographics to customer satisfaction are crowdsourced. For example, 'Mother's Day and Father's Day Survey (18-29 year olds only!)'<br />
+              <br /><b>Content Access</b>: simply access some content. For example, 'Click on the link and watch the video', or 'Read the information by following the website link'. In these tasks the workers are merely asked to consume some content by accessing it, but do nothing further.<br />
+              <br /> If you have any feedback, question, or comment, please use the appropriate input field.<br />
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tmp" style="display:none">
+    <div>
+      <br>
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td width="30%"><b>Title</b></td>
+            <td width="70%">{{title}}</td>
+          </tr>
+          <tr>
+            <td width="30%"><b>Description</b></td>
+            <td width="70%">{{description}}</td>
+          </tr>
+          <tr>
+            <td width="30%"><b>Reward</b> </td>
+            <td width="70%">{{reward}} USD</td>
+          </tr>
+          <tr>
+            <td width="30%"><b>Allotted Time</b> 
+            </td><td width="70%">{{time_alloted}} minutes</td>
+          </tr>
+          <tr>
+            <td width="30%"><b>Keywords</b> </td>
+            <td width="70%">{{keywords}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="container-example" class="container">
+    <div>
+      <br>
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td width="30%"><b>Title</b></td>
+            <td width="70%">Audio Transcription: Interview with Aria Cavaliere (avg rwrd+bns: $1.7) [05:02 mmss]</td>
+          </tr>
+          <tr>
+            <td width="30%"><b>Description</b></td>
+            <td width="70%">Transcribe a chunk of audio following the style guide at http://turkerdocs.castingwords.com/documentation/style/index.html</td>
+          </tr>
+          <tr>
+            <td width="30%"><b>Reward</b> </td>
+            <td width="70%">0.85 USD</td>
+          </tr>
+          <tr>
+            <td width="30%"><b>Allotted Time</b> 
+            </td><td width="70%">8 minutes</td>
+          </tr>
+          <tr>
+            <td width="30%"><b>Keywords</b> </td>
+            <td width="70%">CW,cw,CastingWords,Transcription,Audio,BTE</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="container-task" class="container"> 
+    <h5 style="background-color:red; color:white">Loading ...</h5> 
+  </div>
+
+  <div id="container-form" class="container" >
+      <form action="https://www.mturk.com/mturk/externalSubmit" method="post">
+        <input type="radio" name="radio" value="IF" required> Information Finding<br>
+        <input type="radio" name="radio" value="VV" required> Verification and Validation<br>
+        <input type="radio" name="radio" value="IA" required> Interpretation and Analysis<br>
+        <input type="radio" name="radio" value="CC" required> Content Creation<br>
+        <input type="radio" name="radio" value="SU" required> Surveys<br>
+        <input type="radio" name="radio" value="CA" required> Content Access<br>
+        <input type="radio" name="radio" value="OT" required> I am not sure<br>
+        <!-- This field gets populated by JavaScript when the page loads: -->
+        <input type="hidden" name="assignmentId" id="myAssignmentId" value="">
+        <input type="hidden" name="hitId" id="hitId" value="">
+        <input type="hidden" name="groupId" id="groupid" value="">
+        <br> 
+        <span>If you have any comment, please, write it here:</span>
+        <br>
+        <textarea class="form-control" rows="3" name="comments" id="comments"></textarea>
+        <br> 
+        <br>
+        <button id="submitButton" type="submitButton" name="submitButton" class="btn btn-info">Submit</button>
+      </form>
+  </div>
+
+  <script language="Javascript">
+    if( document.getElementById('assignmentId') ){
+      document.getElementById('assignmentId').value = gup('assignmentId');
+    }
+    if (document.getElementById('submitButton')) {
+      if (gup('assignmentId') == "ASSIGNMENT_ID_NOT_AVAILABLE" || gup('assignmentId')=="")
+      {
+        // If we're previewing, disable the button and give it a helpful message
+        document.getElementById('submitButton').disabled = true;
+        document.getElementById('collapseOne').className += " in";
+        document.getElementById('submitButton').innerHTML = "You must ACCEPT the HIT before you can submit the results.";
+      } else {
+          element = document.getElementById('container-example');
+          element && element.parentNode && element.parentNode.removeChild(element);
+          var form = document.getElementById('mturk_form');
+          if (document.referrer && ( document.referrer.indexOf('workersandbox') != -1) ) {
+              form.action = "https://www.mturk.com/mturk/externalSubmit";
+          }
+      }
+    }
+  </script>
+  <!-- JavaScript at the bottom for fast page loading: http://developer.yahoo.com/performance/rules.html#js_bottom -->
+
+  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline
+   -->
+  <script src="js/vendor/jquery.min.js"></script>
+
+
+  <!-- scripts concatenated and minified via build script -->
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
+  <script src="js/experiment.js"></script>
+  <!-- end scripts -->
+</body>
+</html>
