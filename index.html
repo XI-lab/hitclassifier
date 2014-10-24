@@ -112,7 +112,7 @@
   </div>
 
   <div id="container-task" class="container"> 
-    <h5 style="background-color:red; color:white">Loading ...</h5> 
+    <h5 id="load-msg" style="background-color:red; color:white">Loading ...</h5> 
   </div>
 
   <div id="container-form" class="container" >
@@ -146,6 +146,8 @@
       if (gup('assignmentId') == "ASSIGNMENT_ID_NOT_AVAILABLE" || gup('assignmentId')=="")
       {
         // If we're previewing, disable the button and give it a helpful message
+        element = document.getElementById('container-task');
+        element && element.parentNode && element.parentNode.removeChild(element);
         document.getElementById('submitButton').disabled = true;
         document.getElementById('collapseOne').className += " in";
         document.getElementById('submitButton').innerHTML = "You must ACCEPT the HIT before you can submit the results.";
